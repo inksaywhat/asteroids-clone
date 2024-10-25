@@ -1,5 +1,6 @@
 import pygame
 from constants import *
+from player import Player 
 
 def main():
     # Initialize pygame
@@ -14,6 +15,9 @@ def main():
     # Delta time variable to keep track of time between frames
     dt = 0
 
+    # Create a Player object and set initial position to the center of the screen
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
     # Start the game loop (infinite loop)
     while True:
         # Event handling for quitting the game
@@ -23,6 +27,9 @@ def main():
 
         # Fill the screen with black color
         screen.fill((0, 0, 0))
+
+        # Draw the player on the screen
+        player.draw(screen)
 
         # Refresh the display to show the black screen
         pygame.display.flip()
