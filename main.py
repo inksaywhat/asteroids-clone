@@ -3,6 +3,7 @@ from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     # Initialize pygame
@@ -14,11 +15,13 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     # Set up static containers for Player, Asteroid, and AsteroidField classes
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable,)
+    shots.containers = (shots, updatable, drawable)
 
     # Create game objects
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -37,6 +40,12 @@ def main():
         # Update all objects in the updateable group
         for obj in updatable:
             obj.update(dt)
+
+        # Collision detection: check if player collides with any asteroid
+        for asteroid in asteroids:
+            if player.collides_with(asteroid):
+                print("Game over!")
+                return  # Exit the game loop if a collision is detected
 
         # Fill the screen with black color
         screen.fill("black")
