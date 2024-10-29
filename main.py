@@ -46,6 +46,11 @@ def main():
             if player.collides_with(asteroid):
                 print("Game over!")
                 return  # Exit the game loop if a collision is detected
+            
+        for asteroid in asteroids:
+            if pygame.sprite.collide_circle(shot, asteroid):
+                shot.kill()
+                asteroid.kill()
 
         # Fill the screen with black color
         screen.fill("black")
