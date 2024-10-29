@@ -53,6 +53,7 @@ def main():
                     shot.kill()
                     asteroid.split()
 
+
         # Fill the screen with black color
         screen.fill("black")
 

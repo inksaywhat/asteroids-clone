@@ -4,11 +4,11 @@ from constants import ASTEROID_MIN_RADIUS
 
 class Asteroid(pygame.sprite.Sprite):
     def __init__(self, x, y, radius):
-        super().__init__()
+        super().__init__(self.containers)  # Make sure the asteroid is added to all containers
         self.position = pygame.Vector2(x, y)
         self.radius = radius
         self.velocity = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
-
+    
     def split(self):
         # Kill the current asteroid
         self.kill()
@@ -37,4 +37,3 @@ class Asteroid(pygame.sprite.Sprite):
         # Add the new asteroids to the appropriate groups
         new_asteroid_1.add(self.containers)
         new_asteroid_2.add(self.containers)
-
