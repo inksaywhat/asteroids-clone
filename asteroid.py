@@ -1,39 +1,33 @@
-import random
 import pygame
-from constants import ASTEROID_MIN_RADIUS
+import random
+from constants import *
+from circleshape import CircleShape
 
-class Asteroid(pygame.sprite.Sprite):
+
+class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
-        super().__init__(self.containers)  # Make sure the asteroid is added to all containers
-        self.position = pygame.Vector2(x, y)
-        self.radius = radius
-        self.velocity = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
-    
+        super().__init__(x, y, radius)
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, "white", self.position, self.radius, 2)
+
+    def update(self, dt):
+        self.position += self.velocity * dt
+
     def split(self):
-        # Kill the current asteroid
         self.kill()
 
-        # If the asteroid is too small, stop here
         if self.radius <= ASTEROID_MIN_RADIUS:
             return
 
-        # Generate a random angle between 20 and 50 degrees
+        # randomize the angle of the split
         random_angle = random.uniform(20, 50)
 
-        # Calculate the new radius of the smaller asteroids
+        a = self.velocity.rotate(random_angle)
+        b = self.velocity.rotate(-random_angle)
+
         new_radius = self.radius - ASTEROID_MIN_RADIUS
-
-        # Create two new velocity vectors rotated from the original
-        velocity_1 = self.velocity.rotate(random_angle) * 1.2
-        velocity_2 = self.velocity.rotate(-random_angle) * 1.2
-
-        # Create two new asteroids at the current position with new velocities and radius
-        new_asteroid_1 = Asteroid(self.position.x, self.position.y, new_radius)
-        new_asteroid_1.velocity = velocity_1
-
-        new_asteroid_2 = Asteroid(self.position.x, self.position.y, new_radius)
-        new_asteroid_2.velocity = velocity_2
-
-        # Add the new asteroids to the appropriate groups
-        new_asteroid_1.add(self.containers)
-        new_asteroid_2.add(self.containers)
+        asteroid = Asteroid(self.position.x, self.position.y, new_radius)
+        asteroid.velocity = a * 1.2
+        asteroid = Asteroid(self.position.x, self.position.y, new_radius)
+        asteroid.velocity = b * 1.2
