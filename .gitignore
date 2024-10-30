@@ -1,2 +1,17 @@
+# Virtual Environment
 venv/
+env/
+ENV/
+
+# Python cache files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# VS Code specific files
+.vscode/
+*.code-workspace
+
+# System files
+.DS_Store     # for Mac
+Thumbs.db     # for Windows
